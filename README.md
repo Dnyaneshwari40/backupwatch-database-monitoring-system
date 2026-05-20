@@ -1,102 +1,91 @@
-````md
-# 🚀 BackupWatch – Database Backup & Monitoring System
+# 🗄️ BackupWatch - Database Backup & Monitoring System
 
-> A Java-based console application for managing database servers, scheduling backups, monitoring backup activities, and maintaining backup logs using JDBC and MySQL.
+> Zero-Downtime Database Backup & Monitoring System built with Java, JDBC, and MySQL
 
-![Java](https://img.shields.io/badge/Java-17-orange)
-![JDBC](https://img.shields.io/badge/JDBC-Database-blue)
-![MySQL](https://img.shields.io/badge/MySQL-8.0-blue)
-![Status](https://img.shields.io/badge/Project-Completed-success)
+![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)
+![JDBC](https://img.shields.io/badge/JDBC-007396?style=for-the-badge&logo=java&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Completed-brightgreen?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
 
----
-
-# 📌 Project Overview
-
-**BackupWatch** is a Java-based console application designed to simulate a real-world **Database Backup & Monitoring System**.
-
-The application helps manage database server backups efficiently by providing features such as authentication, server management, backup scheduling, monitoring, and log maintenance.
-
-The project demonstrates practical implementation of:
-
-- Core Java
-- JDBC Connectivity
-- MySQL Database
-- CRUD Operations
-- OOP Concepts
-- DAO Architecture
-- File Handling
-- Exception Handling
+[Features](#-features) • [Quick Start](#-quick-start) • [Architecture](#-architecture) • [Database Setup](#-database-setup) • [API Docs](#-dashboard--workflow)
 
 ---
 
-# ✨ Features
+## 📖 About
 
-## ✅ Database Connection
-
-- MySQL Database Connectivity using JDBC
-- Centralized Database Connection
-- Driver Management
+**BackupWatch** is a Java-based console application that simulates a real-world enterprise database backup monitoring environment. Built with a focus on reliability and structured data management, BackupWatch provides a complete pipeline for managing database servers, scheduling backups, tracking history, and generating activity logs.
 
 ---
 
-## ✅ Login Module
+## 🎯 Key Achievements
 
-### Features
-
-- User Login Authentication
-- Email & Password Verification
-- Role Display (`ADMIN / USER`)
-- Invalid Login Handling
-
----
-
-## ✅ Server Management (CRUD)
-
-### Features
-
-- Add Server
-- View Servers
-- Update Server
-- Delete Server
+✅ **100% CRUD Coverage** — Full Create, Read, Update, Delete operations on servers & backups  
+✅ **Role-Based Auth** — Admin/User authentication with custom exception handling  
+✅ **DAO Architecture** — Clean separation of database logic from business logic  
+✅ **Auto Log Generation** — File-based backup logs created dynamically at runtime  
+✅ **Live Monitoring Dashboard** — Real-time stats using SQL aggregate functions  
+✅ **6-Step Modular Design** — Each feature built as an independent, testable module  
 
 ---
 
-## ✅ Backup Scheduler
+## ✨ Features
 
-### Features
+### 🔌 Database Connection
+- Centralized JDBC connection management
+- MySQL Driver integration via `DriverManager`
+- Single-point connection via `DBConnection.java`
 
-- Schedule Backup
-- Backup Status Tracking
-- Backup Size Management
-- Backup History
+**Concepts Used:** `Connection` `DriverManager` `SQLException`
 
 ---
 
-## ✅ Monitoring Dashboard
+### 🔐 Login Module
+- Email & Password Authentication
+- Role display — `ADMIN` / `USER`
+- Invalid login handled via custom exception
 
-### Dashboard Includes
+**Concepts Used:** `PreparedStatement` `ResultSet` `InvalidUserException`
 
+---
+
+### 🖥️ Server Management (CRUD)
+- Add, View, Update, and Delete database servers
+- Full CRUD operations backed by SQL queries
+
+**Concepts Used:** `INSERT` `SELECT` `UPDATE` `DELETE`
+
+---
+
+### 📅 Backup Scheduler
+- Schedule backups linked to specific servers
+- Track backup status (`SUCCESS` / `FAILED`)
+- Store backup size and date
+
+**Concepts Used:** `Foreign Key` `JDBC INSERT & SELECT`
+
+---
+
+### 📊 Monitoring Dashboard
+Displays live statistics:
 - Total Servers
 - Total Backups
 - Successful Backups
 - Failed Backups
 - Total Storage Used
 
+**SQL Functions Used:** `COUNT()` `SUM()`
+
 ---
 
-## ✅ Backup Logs
-
-### Features
-
-Stores backup logs inside:
-
-```text
+### 📝 Backup Logs
+Stores activity logs in:
+```
 logs/backup_logs.txt
 ```
 
-### Example Log
-
-```text
+Example Log Entry:
+```
 [2026-05-20T22:30:10]
 Backup Scheduled
 Server ID: 1
@@ -105,29 +94,144 @@ Backup Size: 100.0 GB
 ----------------------
 ```
 
----
-
-# 🛠 Technology Stack
-
-| Technology | Purpose |
-|------------|----------|
-| Java | Core Programming |
-| JDBC | Database Connectivity |
-| MySQL | Database Management |
-| SQL | CRUD Operations |
-| OOP | Application Design |
-| File Handling | Backup Logs |
-| VS Code | Development Environment |
+**Concepts Used:** `FileWriter` `File Handling` `Dynamic File Creation`
 
 ---
 
-# 📁 Project Structure
+## 🚀 Quick Start
 
-```text
-backupwatch-database-monitoring-system/
+### Prerequisites
+- Java JDK 8+
+- MySQL Server (running)
+- MySQL Connector JAR (`mysql-connector-j-9.7.0.jar`)
+- VS Code or any Java IDE
+
+---
+
+### Installation
+
+**1. Clone the repository**
+```bash
+git clone https://github.com/your-username/backupwatch-database-monitoring-system.git
+cd backupwatch-database-monitoring-system
+```
+
+**2. Set up the database**
+```sql
+CREATE DATABASE backup_monitoring_db;
+USE backup_monitoring_db;
+```
+> Run `database/schema.sql` and `database/sample_data.sql` in MySQL.
+
+**3. Place the JDBC JAR**
+```
+lib/mysql-connector-j-9.7.0.jar
+```
+
+**4. Update DB credentials in `DBConnection.java`**
+```java
+String USERNAME = "your_mysql_username";
+String PASSWORD = "your_mysql_password";
+```
+
+---
+
+### Running BackupWatch
+
+**Step 1 – Open CMD in project folder**
+```bash
+cd DatabaseBackupMonitoringSystem/
+```
+
+**Step 2 – Compile**
+```bash
+javac -cp "lib/mysql-connector-j-9.7.0.jar;src" src/main/*.java src/dao/*.java src/model/*.java src/service/*.java src/util/*.java src/exception/*.java
+```
+
+**Step 3 – Run**
+```bash
+java -cp "lib/mysql-connector-j-9.7.0.jar;src" main.Main
+```
+
+---
+
+### Login Credentials
+```
+Email:    admin@gmail.com
+Password: admin123
+```
+
+---
+
+## 🏗️ Architecture
+
+```
++----------------+
+|     User       |
++----------------+
+        |
+        v
++----------------+
+|  Login Module  |
++----------------+
+        |
+        v
++----------------+
+|   Dashboard    |
++----------------+
+   |      |      |
+   v      v      v
+Server  Backup  Monitoring
+CRUD   Scheduler Dashboard
+   |      |      |
+   +------|------+
+          |
+          v
++----------------+
+|    MySQL DB    |
++----------------+
+          |
+          v
++----------------+
+| Backup Logs    |
+| File Storage   |
++----------------+
+```
+
+### Components
+
+**`DBConnection.java`**
+- Centralized database connection
+- Single connection instance for all DAOs
+
+**`UserDAO.java`**
+- Login authentication
+- Password & email validation
+
+**`ServerDAO.java`**
+- Full server CRUD operations
+- IP address & storage tracking
+
+**`BackupDAO.java`**
+- Backup scheduling & history
+- Foreign key relation to servers
+
+**`MonitoringService.java`**
+- Aggregate SQL queries
+- Real-time stats computation
+
+**`FileUtil.java`**
+- Dynamic log file creation
+- Append-mode backup logging
+
+---
+
+## 📁 Project Structure
+
+```
+BackupWatch/
 │
 ├── src/
-│   │
 │   ├── main/
 │   │   ├── Main.java
 │   │   └── Dashboard.java
@@ -169,208 +273,73 @@ backupwatch-database-monitoring-system/
 
 ---
 
-# 🏗 System Architecture
+## 🗃️ Database Setup
 
-```text
-+----------------------+
-|        USER          |
-+----------------------+
-            |
-            v
-+----------------------+
-|     LOGIN MODULE     |
-+----------------------+
-            |
-            v
-+----------------------+
-|      DASHBOARD       |
-+----------------------+
-     |        |       |
-     |        |       |
-     v        v       v
-+--------+ +--------+ +------------+
-| Server | | Backup | | Monitoring |
-|  CRUD  | | Module | | Dashboard  |
-+--------+ +--------+ +------------+
-       \       |       /
-        \      |      /
-         \     |     /
-          v    v    v
-       +----------------+
-       |   MySQL DB     |
-       +----------------+
-               |
-               v
-       +----------------+
-       | Backup Logs    |
-       | (Text File)    |
-       +----------------+
-```
+### Tables
 
----
-
-# 🗄 Database Setup
-
-## Step 1 – Create Database
-
-Run the following query in MySQL:
-
-```sql
-CREATE DATABASE backup_monitoring_db;
-```
-
-Select the database:
-
-```sql
-USE backup_monitoring_db;
-```
-
----
-
-# 🧾 Database Tables
-
-## 1️⃣ Users Table
-
+#### 1. Users Table
 ```sql
 CREATE TABLE users (
-    user_id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(100),
-    email VARCHAR(100) UNIQUE,
+    user_id  INT PRIMARY KEY AUTO_INCREMENT,
+    name     VARCHAR(100),
+    email    VARCHAR(100) UNIQUE,
     password VARCHAR(100),
-    role VARCHAR(50)
+    role     VARCHAR(50)
 );
+
+INSERT INTO users (name, email, password, role)
+VALUES ('Admin', 'admin@gmail.com', 'admin123', 'ADMIN');
 ```
 
-### Insert Admin User
-
-```sql
-INSERT INTO users(name, email, password, role)
-VALUES (
-'Admin',
-'admin@gmail.com',
-'admin123',
-'ADMIN'
-);
-```
-
----
-
-## 2️⃣ Servers Table
-
+#### 2. Servers Table
 ```sql
 CREATE TABLE servers (
-    server_id INT PRIMARY KEY AUTO_INCREMENT,
-    server_name VARCHAR(100),
-    ip_address VARCHAR(50),
+    server_id        INT PRIMARY KEY AUTO_INCREMENT,
+    server_name      VARCHAR(100),
+    ip_address       VARCHAR(50),
     storage_capacity DOUBLE,
-    status VARCHAR(50)
+    status           VARCHAR(50)
 );
 ```
 
----
-
-## 3️⃣ Backups Table
-
+#### 3. Backups Table
 ```sql
 CREATE TABLE backups (
-    backup_id INT PRIMARY KEY AUTO_INCREMENT,
-    server_id INT,
-    backup_date DATETIME,
+    backup_id     INT PRIMARY KEY AUTO_INCREMENT,
+    server_id     INT,
+    backup_date   DATETIME,
     backup_status VARCHAR(50),
-    backup_size DOUBLE,
+    backup_size   DOUBLE,
 
-    FOREIGN KEY(server_id)
-    REFERENCES servers(server_id)
+    FOREIGN KEY (server_id) REFERENCES servers(server_id)
 );
 ```
 
 ---
 
-# 🔗 JDBC Configuration
+## 📋 Dashboard & Workflow
 
-Download the **MySQL JDBC Connector** and place the JAR file inside:
-
-```text
-lib/
+### Application Workflow
 ```
-
-Example:
-
-```text
-mysql-connector-j-9.7.0.jar
-```
-
----
-
-# ▶️ How to Run the Project
-
-## Step 1 – Open CMD in Project Folder
-
-Navigate to:
-
-```text
-DatabaseBackupMonitoringSystem
-```
-
----
-
-## Step 2 – Compile Project
-
-```bash
-javac -cp "lib/mysql-connector-j-9.7.0.jar;src" src/main/*.java src/dao/*.java src/model/*.java src/service/*.java src/util/*.java src/exception/*.java
-```
-
----
-
-## Step 3 – Run Project
-
-```bash
-java -cp "lib/mysql-connector-j-9.7.0.jar;src" main.Main
-```
-
----
-
-# 🔐 Login Credentials
-
-```text
-Email:
-admin@gmail.com
-
-Password:
-admin123
-```
-
----
-
-# 🔄 Application Workflow
-
-```text
 Login
-   ↓
+  ↓
 Dashboard
-   ↓
-Add Server
-   ↓
-View Server
-   ↓
-Update/Delete Server
-   ↓
+  ↓
+Add / View / Update / Delete Servers
+  ↓
 Schedule Backup
-   ↓
+  ↓
 View Backup History
-   ↓
+  ↓
 Monitoring Dashboard
-   ↓
-Save Backup Logs
-   ↓
+  ↓
+Save Logs
+  ↓
 Exit
 ```
 
----
-
-# 🖥 Dashboard Menu
-
-```text
+### Dashboard Menu
+```
 ===== DATABASE BACKUP SYSTEM =====
 
 1. Add Server
@@ -384,54 +353,93 @@ Exit
 9. Exit
 ```
 
----
+### Sample Monitoring Output
+```
+===== MONITORING DASHBOARD =====
 
-# 🔧 Core Concepts Implemented
-
-This project demonstrates practical implementation of:
-
-- Core Java
-- JDBC Connectivity
-- MySQL Database
-- CRUD Operations
-- DAO Architecture
-- OOP Concepts
-- Exception Handling
-- File Handling
-- SQL Queries & Aggregations
+Total Servers      : 3
+Total Backups      : 7
+Successful Backups : 6
+Failed Backups     : 1
+Total Storage Used : 420.5 GB
+```
 
 ---
 
-# 📌 Key Functionalities
+## 🧩 OOP & Java Concepts Used
 
-✔ User Authentication  
-✔ Database Server Management  
-✔ Backup Scheduling  
-✔ Backup History Tracking  
-✔ Monitoring Dashboard  
-✔ Backup Log Management
+### Encapsulation
+Private variables with getters & setters in `User.java`, `Server.java`, `Backup.java`.
 
----
+### Abstraction
+DAO layer hides all database logic — `UserDAO`, `ServerDAO`, `BackupDAO`.
 
-# 🎯 Project Outcome
-
-**BackupWatch** provides a simplified enterprise-level solution for managing and monitoring database backups through a console-based system.
-
-The project focuses on implementing **real-world backend concepts using Java, JDBC, and MySQL**, while maintaining clean architecture and modular code structure.
-
-This project helped strengthen understanding of:
-
-- Database Connectivity
-- Layered Architecture
-- SQL Operations
-- File Management
-- Backend Application Development
+### Exception Handling
+Custom `InvalidUserException` thrown on invalid login attempts.
 
 ---
 
-## ✅ Successfully Implemented Using
+## 🛠️ Technology Stack
 
-**Java + JDBC + MySQL + OOP + File Handling**
+| Technology    | Purpose                 |
+|---------------|-------------------------|
+| Java          | Core Programming        |
+| JDBC          | Database Connectivity   |
+| MySQL         | Database Management     |
+| SQL           | CRUD & Aggregates       |
+| File Handling | Backup Log Generation   |
+| OOP           | System Design           |
+| VS Code       | Development Environment |
 
 ---
-````
+
+## 🔧 JDBC Concepts Used
+
+- `Connection`
+- `PreparedStatement`
+- `ResultSet`
+- `executeQuery()`
+- `executeUpdate()`
+
+---
+
+## 🗄️ SQL Concepts Used
+
+**CRUD:** `INSERT` `SELECT` `UPDATE` `DELETE`
+
+**Aggregate Functions:** `COUNT()` `SUM()`
+
+**Foreign Key:**
+```
+backups.server_id → servers.server_id
+```
+
+---
+
+## 🔮 Future Enhancements
+
+- [ ] GUI using Java Swing
+- [ ] Email Notifications on Backup Failure
+- [ ] Scheduled Automatic Backups (Cron-style)
+- [ ] Backup Restore Feature
+- [ ] Cloud Storage Integration
+- [ ] Admin / User Role Permissions
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Areas to improve:
+
+- [ ] Multi-user support
+- [ ] Backup compression
+- [ ] REST API layer
+- [ ] Docker containerization
+
+---
+
+
+
+Made with ☕ for Java learners and database enthusiasts
+
+⭐ Star this repo if you find it helpful!
