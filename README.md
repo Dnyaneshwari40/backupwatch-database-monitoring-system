@@ -1,1 +1,437 @@
-{"name":"backupwatch_readme_md","type":"document","content":"# BackupWatch – Database Backup & Monitoring System\n\n> A console-based **Database Backup & Monitoring System** developed using **Java, JDBC, and MySQL** to manage database servers, schedule backups, monitor backup activity, and maintain logs.\n\n---\n\n## Project Overview\n\n**BackupWatch** is a Java-based console application that simulates a real-world enterprise database backup monitoring environment.\n\nThe system provides:\n\n- User authentication\n- Database server management\n- Backup scheduling\n- Backup monitoring dashboard\n- Backup history tracking\n- File-based log generation\n\nThis project demonstrates strong understanding of:\n\n- Core Java\n- JDBC\n- MySQL\n- OOP Concepts\n- DAO Architecture\n- CRUD Operations\n- SQL Queries\n- File Handling\n- Exception Handling\n\n---\n\n# Features\n\n## Step 1 – Database Connection\n\n- Connect Java application with MySQL\n- JDBC Driver Integration\n- Centralized database connection\n\n### Concepts Used\n\n- `Connection`\n- `DriverManager`\n- `SQLException`\n\n---\n\n## Step 2 – Login Module\n\n### Functionality\n\n- User Login\n- Email & Password Authentication\n- Role Display (ADMIN / USER)\n- Invalid Login Handling\n\n### Concepts Used\n\n- `PreparedStatement`\n- `ResultSet`\n- Custom Exception\n\n---\n\n## Step 3 – Server Management (CRUD)\n\n### Functionality\n\n- Add Server\n- View Servers\n- Update Server Status\n- Delete Server\n\n### Concepts Used\n\n- INSERT Query\n- SELECT Query\n- UPDATE Query\n- DELETE Query\n\n---\n\n## Step 4 – Backup Scheduler\n\n### Functionality\n\n- Schedule Backup\n- Backup Status Tracking\n- Backup Size Storage\n- Backup History\n\n### Concepts Used\n\n- Foreign Key\n- JDBC INSERT & SELECT\n\n---\n\n## Step 5 – Monitoring Dashboard\n\n### Functionality\n\nDisplays:\n\n- Total Servers\n- Total Backups\n- Successful Backups\n- Failed Backups\n- Total Storage Used\n\n### SQL Functions Used\n\n- `COUNT()`\n- `SUM()`\n\n---\n\n## Step 6 – Backup Logs\n\n### Functionality\n\nStores backup logs in:\n\n`text\nlogs/backup_logs.txt\n`\n\nExample Log:\n\n`text\n[2026-05-20T22:30:10]\nBackup Scheduled\nServer ID: 1\nStatus: SUCCESS\nBackup Size: 100.0 GB\n----------------------\n`\n\n### Concepts Used\n\n- `FileWriter`\n- File Handling\n- Dynamic File Creation\n\n---\n\n# Technology Stack\n\n| Technology | Purpose |\n|------------|----------|\n| Java | Core Programming |\n| JDBC | Database Connectivity |\n| MySQL | Database Management |\n| SQL | CRUD Operations |\n| File Handling | Backup Logs |\n| OOP | System Design |\n| VS Code | Development Environment |\n\n---\n\n# Project Structure\n\n`text\nBackupWatch/\n│\n├── src/\n│   │\n│   ├── main/\n│   │   ├── Main.java\n│   │   └── Dashboard.java\n│   │\n│   ├── model/\n│   │   ├── User.java\n│   │   ├── Server.java\n│   │   └── Backup.java\n│   │\n│   ├── dao/\n│   │   ├── DBConnection.java\n│   │   ├── UserDAO.java\n│   │   ├── ServerDAO.java\n│   │   └── BackupDAO.java\n│   │\n│   ├── service/\n│   │   ├── LoginService.java\n│   │   ├── BackupService.java\n│   │   └── MonitoringService.java\n│   │\n│   ├── util/\n│   │   └── FileUtil.java\n│   │\n│   ├── exception/\n│   │   └── InvalidUserException.java\n│   │\n│   └── logs/\n│       └── backup_logs.txt\n│\n├── database/\n│   ├── schema.sql\n│   └── sample_data.sql\n│\n├── lib/\n│   └── mysql-connector-j-9.7.0.jar\n│\n└── README.md\n`\n\n---\n\n# System Architecture\n\n`text\n+----------------+\n|     User       |\n+----------------+\n         |\n         v\n+----------------+\n|  Login Module  |\n+----------------+\n         |\n         v\n+----------------+\n|   Dashboard    |\n+----------------+\n   |      |      |\n   |      |      |\n   v      v      v\nServer  Backup  Monitoring\nCRUD   Scheduler Dashboard\n   |      |      |\n   +------|------+\n          |\n          v\n+----------------+\n|    MySQL DB    |\n+----------------+\n          |\n          v\n+----------------+\n| Backup Logs    |\n| File Storage   |\n+----------------+\n`\n\n---\n\n# Database Setup\n\n## Create Database\n\nRun in MySQL:\n\n`sql\nCREATE DATABASE backup_monitoring_db;\n`\n\nSelect Database:\n\n`sql\nUSE backup_monitoring_db;\n`\n\n---\n\n# Database Tables\n\n## 1. Users Table\n\n`sql\nCREATE TABLE users (\n    user_id INT PRIMARY KEY AUTO_INCREMENT,\n    name VARCHAR(100),\n    email VARCHAR(100) UNIQUE,\n    password VARCHAR(100),\n    role VARCHAR(50)\n);\n`\n\nInsert Admin User:\n\n`sql\nINSERT INTO users(name, email, password, role)\nVALUES (\n'Admin',\n'admin@gmail.com',\n'admin123',\n'ADMIN'\n);\n`\n\n---\n\n## 2. Servers Table\n\n`sql\nCREATE TABLE servers (\n    server_id INT PRIMARY KEY AUTO_INCREMENT,\n    server_name VARCHAR(100),\n    ip_address VARCHAR(50),\n    storage_capacity DOUBLE,\n    status VARCHAR(50)\n);\n`\n\n---\n\n## 3. Backups Table\n\n`sql\nCREATE TABLE backups (\n    backup_id INT PRIMARY KEY AUTO_INCREMENT,\n    server_id INT,\n    backup_date DATETIME,\n    backup_status VARCHAR(50),\n    backup_size DOUBLE,\n\n    FOREIGN KEY(server_id)\n    REFERENCES servers(server_id)\n);\n`\n\n---\n\n# JDBC Configuration\n\nDownload MySQL Connector JAR.\n\nPlace inside:\n\n`text\nlib/\n`\n\nExample:\n\n`text\nmysql-connector-j-9.7.0.jar\n`\n\n---\n\n# How to Run the Project\n\n## Step 1 – Open CMD in Project Folder\n\nExample:\n\n`text\nDatabaseBackupMonitoringSystem/\n`\n\n---\n\n## Step 2 – Compile Project\n\n`bash\njavac -cp \"lib/mysql-connector-j-9.7.0.jar;src\" src/main/*.java src/dao/*.java src/model/*.java src/service/*.java src/util/*.java src/exception/*.java\n`\n\n---\n\n## Step 3 – Run Project\n\n`bash\njava -cp \"lib/mysql-connector-j-9.7.0.jar;src\" main.Main\n`\n\n---\n\n# Login Credentials\n\n`text\nEmail:\nadmin@gmail.com\n\nPassword:\nadmin123\n`\n\n---\n\n# Application Workflow\n\n`text\nLogin\n   ↓\nDashboard\n   ↓\nAdd/View/Update/Delete Servers\n   ↓\nSchedule Backup\n   ↓\nView Backup History\n   ↓\nMonitoring Dashboard\n   ↓\nSave Logs\n   ↓\nExit\n`\n\n---\n\n# Dashboard Menu\n\n`text\n===== DATABASE BACKUP SYSTEM =====\n\n1. Add Server\n2. View Servers\n3. Update Server\n4. Delete Server\n5. Schedule Backup\n6. View Backup History\n7. Monitoring Dashboard\n8. Save Backup Logs\n9. Exit\n`\n\n---\n\n# Sample Monitoring Dashboard\n\n`text\n===== MONITORING DASHBOARD =====\n\nTotal Servers: 1\nTotal Backups: 1\nSuccessful Backups: 1\nFailed Backups: 0\nTotal Storage Used: 100.0 GB\n`\n\n---\n\n# OOP Concepts Used\n\n## Encapsulation\n\nUsed in:\n\n- `User.java`\n- `Server.java`\n- `Backup.java`\n\nImplemented using:\n\n- Private Variables\n- Getters & Setters\n\n---\n\n## Abstraction\n\nDAO Layer hides database logic.\n\nExamples:\n\n- `UserDAO.java`\n- `ServerDAO.java`\n- `BackupDAO.java`\n\n---\n\n## Exception Handling\n\nCustom Exception:\n\n`text\nInvalidUserException\n`\n\nUsed for:\n\n- Invalid Login\n\n---\n\n# JDBC Concepts Used\n\n- `Connection`\n- `PreparedStatement`\n- `ResultSet`\n- `executeQuery()`\n- `executeUpdate()`\n\n---\n\n# SQL Concepts Used\n\n## CRUD Operations\n\n- INSERT\n- SELECT\n- UPDATE\n- DELETE\n\n## Aggregate Functions\n\n- `COUNT()`\n- `SUM()`\n\n## Foreign Key\n\n`text\nserver_id\n`\n\nRelation:\n\n`text\nbackups.server_id\n→ servers.server_id\n`\n\n---\n\n# Screenshots\n\nAdd screenshots here:\n\n`text\nscreenshots/\n`\n\nRecommended:\n\n- login.png\n- dashboard.png\n- backup-history.png\n- monitoring-dashboard.png\n\n---\n\n# Troubleshooting\n\n## Database Connection Failed\n\nCause:\n\n- Wrong MySQL password\n- MySQL service not running\n\nSolution:\n\nCheck:\n\n`java\nDBConnection.java\n`\n\nUpdate:\n\n`java\nUSERNAME\nPASSWORD\n`\n\n---\n\n## MySQL Driver Not Found\n\nCause:\n\nJAR file missing.\n\nSolution:\n\nVerify:\n\n`text\nlib/mysql-connector-j.jar\n`\n\n---\n\n## Log File Not Found\n\nCause:\n\nLogs folder missing.\n\nSolution:\n\nProject auto-creates:\n\n`text\nlogs/backup_logs.txt\n`\n\n---\n\n# Interview Explanation\n\n### What problem does this project solve?\n\nThis system helps manage database server backups by providing:\n\n- Backup scheduling\n- Monitoring statistics\n- Backup history tracking\n- Log management\n\n### Why JDBC?\n\nJDBC was used to connect Java application with MySQL database for performing CRUD operations.\n\n### Why DAO Architecture?\n\nDAO architecture separates database logic from business logic, making code easier to manage and maintain.\n\n### Why File Handling?\n\nFile handling was used to maintain backup logs in a text file for activity tracking.\n\n---\n\n# Future Enhancements\n\n- GUI using Java Swing\n- Email Notifications\n- Scheduled Automatic Backup\n- Backup Restore Feature\n- Cloud Storage Integration\n- Admin/User Role Permissions\n\n---\n\n# Repository Name\n\n`text\nbackupwatch-database-monitoring-system\n`\n\n---\n\n## Project Status\n\n✅ Completed\n\nConsole-based enterprise mini-project using Java + JDBC + MySQL."}
+````md
+# 🚀 BackupWatch – Database Backup & Monitoring System
+
+> A Java-based console application for managing database servers, scheduling backups, monitoring backup activities, and maintaining backup logs using JDBC and MySQL.
+
+![Java](https://img.shields.io/badge/Java-17-orange)
+![JDBC](https://img.shields.io/badge/JDBC-Database-blue)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-blue)
+![Status](https://img.shields.io/badge/Project-Completed-success)
+
+---
+
+# 📌 Project Overview
+
+**BackupWatch** is a Java-based console application designed to simulate a real-world **Database Backup & Monitoring System**.
+
+The application helps manage database server backups efficiently by providing features such as authentication, server management, backup scheduling, monitoring, and log maintenance.
+
+The project demonstrates practical implementation of:
+
+- Core Java
+- JDBC Connectivity
+- MySQL Database
+- CRUD Operations
+- OOP Concepts
+- DAO Architecture
+- File Handling
+- Exception Handling
+
+---
+
+# ✨ Features
+
+## ✅ Database Connection
+
+- MySQL Database Connectivity using JDBC
+- Centralized Database Connection
+- Driver Management
+
+---
+
+## ✅ Login Module
+
+### Features
+
+- User Login Authentication
+- Email & Password Verification
+- Role Display (`ADMIN / USER`)
+- Invalid Login Handling
+
+---
+
+## ✅ Server Management (CRUD)
+
+### Features
+
+- Add Server
+- View Servers
+- Update Server
+- Delete Server
+
+---
+
+## ✅ Backup Scheduler
+
+### Features
+
+- Schedule Backup
+- Backup Status Tracking
+- Backup Size Management
+- Backup History
+
+---
+
+## ✅ Monitoring Dashboard
+
+### Dashboard Includes
+
+- Total Servers
+- Total Backups
+- Successful Backups
+- Failed Backups
+- Total Storage Used
+
+---
+
+## ✅ Backup Logs
+
+### Features
+
+Stores backup logs inside:
+
+```text
+logs/backup_logs.txt
+```
+
+### Example Log
+
+```text
+[2026-05-20T22:30:10]
+Backup Scheduled
+Server ID: 1
+Status: SUCCESS
+Backup Size: 100.0 GB
+----------------------
+```
+
+---
+
+# 🛠 Technology Stack
+
+| Technology | Purpose |
+|------------|----------|
+| Java | Core Programming |
+| JDBC | Database Connectivity |
+| MySQL | Database Management |
+| SQL | CRUD Operations |
+| OOP | Application Design |
+| File Handling | Backup Logs |
+| VS Code | Development Environment |
+
+---
+
+# 📁 Project Structure
+
+```text
+backupwatch-database-monitoring-system/
+│
+├── src/
+│   │
+│   ├── main/
+│   │   ├── Main.java
+│   │   └── Dashboard.java
+│   │
+│   ├── model/
+│   │   ├── User.java
+│   │   ├── Server.java
+│   │   └── Backup.java
+│   │
+│   ├── dao/
+│   │   ├── DBConnection.java
+│   │   ├── UserDAO.java
+│   │   ├── ServerDAO.java
+│   │   └── BackupDAO.java
+│   │
+│   ├── service/
+│   │   ├── LoginService.java
+│   │   ├── BackupService.java
+│   │   └── MonitoringService.java
+│   │
+│   ├── util/
+│   │   └── FileUtil.java
+│   │
+│   ├── exception/
+│   │   └── InvalidUserException.java
+│   │
+│   └── logs/
+│       └── backup_logs.txt
+│
+├── database/
+│   ├── schema.sql
+│   └── sample_data.sql
+│
+├── lib/
+│   └── mysql-connector-j-9.7.0.jar
+│
+└── README.md
+```
+
+---
+
+# 🏗 System Architecture
+
+```text
++----------------------+
+|        USER          |
++----------------------+
+            |
+            v
++----------------------+
+|     LOGIN MODULE     |
++----------------------+
+            |
+            v
++----------------------+
+|      DASHBOARD       |
++----------------------+
+     |        |       |
+     |        |       |
+     v        v       v
++--------+ +--------+ +------------+
+| Server | | Backup | | Monitoring |
+|  CRUD  | | Module | | Dashboard  |
++--------+ +--------+ +------------+
+       \       |       /
+        \      |      /
+         \     |     /
+          v    v    v
+       +----------------+
+       |   MySQL DB     |
+       +----------------+
+               |
+               v
+       +----------------+
+       | Backup Logs    |
+       | (Text File)    |
+       +----------------+
+```
+
+---
+
+# 🗄 Database Setup
+
+## Step 1 – Create Database
+
+Run the following query in MySQL:
+
+```sql
+CREATE DATABASE backup_monitoring_db;
+```
+
+Select the database:
+
+```sql
+USE backup_monitoring_db;
+```
+
+---
+
+# 🧾 Database Tables
+
+## 1️⃣ Users Table
+
+```sql
+CREATE TABLE users (
+    user_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100),
+    email VARCHAR(100) UNIQUE,
+    password VARCHAR(100),
+    role VARCHAR(50)
+);
+```
+
+### Insert Admin User
+
+```sql
+INSERT INTO users(name, email, password, role)
+VALUES (
+'Admin',
+'admin@gmail.com',
+'admin123',
+'ADMIN'
+);
+```
+
+---
+
+## 2️⃣ Servers Table
+
+```sql
+CREATE TABLE servers (
+    server_id INT PRIMARY KEY AUTO_INCREMENT,
+    server_name VARCHAR(100),
+    ip_address VARCHAR(50),
+    storage_capacity DOUBLE,
+    status VARCHAR(50)
+);
+```
+
+---
+
+## 3️⃣ Backups Table
+
+```sql
+CREATE TABLE backups (
+    backup_id INT PRIMARY KEY AUTO_INCREMENT,
+    server_id INT,
+    backup_date DATETIME,
+    backup_status VARCHAR(50),
+    backup_size DOUBLE,
+
+    FOREIGN KEY(server_id)
+    REFERENCES servers(server_id)
+);
+```
+
+---
+
+# 🔗 JDBC Configuration
+
+Download the **MySQL JDBC Connector** and place the JAR file inside:
+
+```text
+lib/
+```
+
+Example:
+
+```text
+mysql-connector-j-9.7.0.jar
+```
+
+---
+
+# ▶️ How to Run the Project
+
+## Step 1 – Open CMD in Project Folder
+
+Navigate to:
+
+```text
+DatabaseBackupMonitoringSystem
+```
+
+---
+
+## Step 2 – Compile Project
+
+```bash
+javac -cp "lib/mysql-connector-j-9.7.0.jar;src" src/main/*.java src/dao/*.java src/model/*.java src/service/*.java src/util/*.java src/exception/*.java
+```
+
+---
+
+## Step 3 – Run Project
+
+```bash
+java -cp "lib/mysql-connector-j-9.7.0.jar;src" main.Main
+```
+
+---
+
+# 🔐 Login Credentials
+
+```text
+Email:
+admin@gmail.com
+
+Password:
+admin123
+```
+
+---
+
+# 🔄 Application Workflow
+
+```text
+Login
+   ↓
+Dashboard
+   ↓
+Add Server
+   ↓
+View Server
+   ↓
+Update/Delete Server
+   ↓
+Schedule Backup
+   ↓
+View Backup History
+   ↓
+Monitoring Dashboard
+   ↓
+Save Backup Logs
+   ↓
+Exit
+```
+
+---
+
+# 🖥 Dashboard Menu
+
+```text
+===== DATABASE BACKUP SYSTEM =====
+
+1. Add Server
+2. View Servers
+3. Update Server
+4. Delete Server
+5. Schedule Backup
+6. View Backup History
+7. Monitoring Dashboard
+8. Save Backup Logs
+9. Exit
+```
+
+---
+
+# 🔧 Core Concepts Implemented
+
+This project demonstrates practical implementation of:
+
+- Core Java
+- JDBC Connectivity
+- MySQL Database
+- CRUD Operations
+- DAO Architecture
+- OOP Concepts
+- Exception Handling
+- File Handling
+- SQL Queries & Aggregations
+
+---
+
+# 📌 Key Functionalities
+
+✔ User Authentication  
+✔ Database Server Management  
+✔ Backup Scheduling  
+✔ Backup History Tracking  
+✔ Monitoring Dashboard  
+✔ Backup Log Management
+
+---
+
+# 🎯 Project Outcome
+
+**BackupWatch** provides a simplified enterprise-level solution for managing and monitoring database backups through a console-based system.
+
+The project focuses on implementing **real-world backend concepts using Java, JDBC, and MySQL**, while maintaining clean architecture and modular code structure.
+
+This project helped strengthen understanding of:
+
+- Database Connectivity
+- Layered Architecture
+- SQL Operations
+- File Management
+- Backend Application Development
+
+---
+
+## ✅ Successfully Implemented Using
+
+**Java + JDBC + MySQL + OOP + File Handling**
+
+---
+````
